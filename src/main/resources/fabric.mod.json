@@ -9,8 +9,8 @@
 	],
 	"contact": {
 		"homepage": "*",
-		"sources": "*",
-		"issues": "*"
+		"sources": "https://github.com/SpottedToad/The-Lost-Isles",
+		"issues": "https://github.com/SpottedToad/The-Lost-Isles/issues"
 	},
 	"license": "MIT",
 	"icon": "assets/lostisles/icon.png",
@@ -37,7 +37,6 @@
 	"depends": {
 		"fabricloader": ">=${loader_version}",
 		"minecraft": "~${minecraft_version}",
-		"java": ">=${java_version}",
-		"fabric-api": "*"
+		"java": ">=${java_version}"
 	}
 }
