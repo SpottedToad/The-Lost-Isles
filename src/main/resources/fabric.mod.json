@@ -10,7 +10,7 @@
 	"contributors": [
 	],
 	"contact": {
-		"homepage": "*",
+		"homepage": "https://modrinth.com/mod/the-lost-isles",
 		"sources": "https://github.com/SpottedToad/The-Lost-Isles",
 		"issues": "https://github.com/SpottedToad/The-Lost-Isles/issues"
 	},
@@ -25,6 +25,7 @@
 			"net.spottedtoad.lostisles.TheLostIslesDataGenerator"
 		],
 		"client": [
+			"net.spottedtoad.lostisles.TheLostIslesClient"
 		]
 	},
 	"mixins": [

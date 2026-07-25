@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "rotation=0": {"model": "lostisles:block/conifer_sign"},
+    "rotation=1": {"model": "lostisles:block/conifer_sign"},
+    "rotation=2": {"model": "lostisles:block/conifer_sign"},
+    "rotation=3": {"model": "lostisles:block/conifer_sign"},
+    "rotation=4": {"model": "lostisles:block/conifer_sign"},
+    "rotation=5": {"model": "lostisles:block/conifer_sign"},
+    "rotation=6": {"model": "lostisles:block/conifer_sign"},
+    "rotation=7": {"model": "lostisles:block/conifer_sign"},
+    "rotation=8": {"model": "lostisles:block/conifer_sign"},
+    "rotation=9": {"model": "lostisles:block/conifer_sign"},
+    "rotation=10": {"model": "lostisles:block/conifer_sign"},
+    "rotation=11": {"model": "lostisles:block/conifer_sign"},
+    "rotation=12": {"model": "lostisles:block/conifer_sign"},
+    "rotation=13": {"model": "lostisles:block/conifer_sign"},
+    "rotation=14": {"model": "lostisles:block/conifer_sign"},
+    "rotation=15": {"model": "lostisles:block/conifer_sign"}
+  }
+}

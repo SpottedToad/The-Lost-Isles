@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model": "lostisles:block/conifer_sign"},
+    "facing=east": {"model": "lostisles:block/conifer_sign"},
+    "facing=south": {"model": "lostisles:block/conifer_sign"},
+    "facing=west": {"model": "lostisles:block/conifer_sign"}
+  }
+}

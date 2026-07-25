@@ -1,6 +1,27 @@
 {
-  "item.lostisles.template_item_1": "Template Item 1",
-  "item.lostisles.template_item_2": "Template Item 2",
-  "tab.lostisles.the_lost_isles_tab": "Lost Isle Items"
+  "block.lostisles.conifer_log": "Conifer Log",
+  "block.lostisles.conifer_wood": "Conifer Wood",
+  "block.lostisles.stripped_conifer_log": "Stripped Conifer Log",
+  "block.lostisles.stripped_conifer_wood": "Stripped Conifer Wood",
+  "block.lostisles.conifer_planks": "Conifer Planks",
+  "block.lostisles.conifer_stairs": "Conifer Stairs",
+  "block.lostisles.conifer_slab": "Conifer Slab",
+  "block.lostisles.conifer_fence": "Conifer Fence",
+  "block.lostisles.conifer_fence_gate": "Conifer Fence Gate",
+  "block.lostisles.conifer_door": "Conifer Door",
+  "block.lostisles.conifer_trapdoor": "Conifer Trapdoor",
+  "block.lostisles.conifer_pressure_plate": "Conifer Pressure Plate",
+  "block.lostisles.conifer_button": "Conifer Button",
+  "block.lostisles.conifer_shelf": "Conifer Shelf",
+  "block.lostisles.conifer_sign": "Conifer Sign",
+  "block.lostisles.conifer_wall_sign": "Conifer Sign",
+  "item.lostisles.conifer_sign": "Conifer Sign",
+  "block.lostisles.conifer_hanging_sign": "Conifer Hanging Sign",
+  "block.lostisles.conifer_wall_hanging_sign": "Conifer Hanging Sign",
+  "item.lostisles.conifer_hanging_sign": "Conifer Hanging Sign",
+  "item.lostisles.conifer_boat": "Conifer Boat",
+  "item.lostisles.conifer_chest_boat": "Conifer Chest Boat",
+  "entity.lostisles.conifer_chest_boat": "Conifer Chest Boat",
 
+  "tab.lostisles.the_lost_isles_tab": "The Lost Isle"
 }
