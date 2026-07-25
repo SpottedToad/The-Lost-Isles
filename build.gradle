@@ -25,6 +25,7 @@ dependencies {
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	implementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
+	include "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
 }
 
 processResources {
