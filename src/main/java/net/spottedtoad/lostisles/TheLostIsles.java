@@ -23,7 +23,6 @@ public class TheLostIsles implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Initializing The Lost Isles");
-		TheLostIslesDataGenerator.registerDataGenerator();
 		ModTabs.registerModTabs();
 		ModBlocks.registerModBlocks();
 		ModItems.registerModItems();

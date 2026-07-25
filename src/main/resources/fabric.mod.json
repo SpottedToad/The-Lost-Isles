@@ -21,11 +21,11 @@
 		"main": [
 			"net.spottedtoad.lostisles.TheLostIsles"
 		],
-		"fabric-datagen": [
-			"net.spottedtoad.lostisles.TheLostIslesDataGenerator"
-		],
 		"client": [
 			"net.spottedtoad.lostisles.TheLostIslesClient"
+		],
+		"datagen": [
+			"net.spottedtoad.lostisles.TheLostIslesDataGenerator"
 		]
 	},
 	"mixins": [

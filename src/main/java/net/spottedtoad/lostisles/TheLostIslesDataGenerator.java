@@ -15,8 +15,4 @@ public class TheLostIslesDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModBlocksTagsProvider::new);
 		pack.addProvider(ModBlockLootTableProvider::new);
 	}
-
-	public static void registerDataGenerator() {
-		TheLostIsles.LOGGER.info("Initializing Data Generation for The Lost Isles");
-	}
 }
