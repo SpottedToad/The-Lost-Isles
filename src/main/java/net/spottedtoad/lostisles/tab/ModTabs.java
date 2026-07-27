@@ -36,6 +36,8 @@ public class ModTabs {
                         output.accept(ModBlocks.CONIFER_BUTTON);
                         output.accept(ModItems.CONIFER_BOAT);
                         output.accept(ModItems.CONIFER_CHEST_BOAT);
+                        output.accept(ModBlocks.CONIFER_LEAVES);
+                        output.accept(ModBlocks.CONIFER_SAPLING);
 
                         output.accept(ModBlocks.TEMPLATE_BLOCK_1);
                         output.accept(ModItems.TEMPLATE_ITEM_1);

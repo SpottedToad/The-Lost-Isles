@@ -18,6 +18,7 @@ public class ModFlammableBlocks {
         registry.add(ModBlocks.CONIFER_SLAB, 5, 20);
         registry.add(ModBlocks.CONIFER_FENCE, 5, 20);
         registry.add(ModBlocks.CONIFER_FENCE_GATE, 5, 20);
+        registry.add(ModBlocks.CONIFER_LEAVES, 30, 60);
     }
 }
 

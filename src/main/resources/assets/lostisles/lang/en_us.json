@@ -1,4 +1,6 @@
 {
+  "block.lostisles.conifer_sapling": "Conifer Sapling",
+  "block.lostisles.potted_conifer_sapling": "Potted Conifer Sapling",
   "block.lostisles.conifer_log": "Conifer Log",
   "block.lostisles.conifer_wood": "Conifer Wood",
   "block.lostisles.stripped_conifer_log": "Stripped Conifer Log",
@@ -22,6 +24,10 @@
   "item.lostisles.conifer_boat": "Conifer Boat",
   "item.lostisles.conifer_chest_boat": "Conifer Chest Boat",
   "entity.lostisles.conifer_chest_boat": "Conifer Chest Boat",
+
+  "block.lostisles.template_block_1": "Cultist Block",
+  "item.lostisles.template_item_1": "Red X",
+  "item.lostisles.template_item_2": "Another Red X?",
 
   "tab.lostisles.the_lost_isles_tab": "The Lost Isle"
 }

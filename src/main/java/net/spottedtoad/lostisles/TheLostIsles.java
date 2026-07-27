@@ -5,10 +5,16 @@ import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.spottedtoad.lostisles.block.ModBlocks;
+import net.spottedtoad.lostisles.init.ModRegistryHelper;
+import net.spottedtoad.lostisles.util.ModCompostables;
+import net.spottedtoad.lostisles.block.ModWoodTypes;
 import net.spottedtoad.lostisles.item.ModItems;
 import net.spottedtoad.lostisles.tab.ModTabs;
 import net.spottedtoad.lostisles.util.ModFlammableBlocks;
 import net.spottedtoad.lostisles.util.ModStrippableBlocks;
+import net.spottedtoad.lostisles.world.ModConfiguredFeatures;
+import net.spottedtoad.lostisles.world.ModFeatures;
+import net.spottedtoad.lostisles.world.ModSaplingGenerators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,10 +30,16 @@ public class TheLostIsles implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Initializing The Lost Isles");
 		ModTabs.registerModTabs();
-		ModBlocks.registerModBlocks();
 		ModItems.registerModItems();
+		ModBlocks.registerModBlocks();
+		ModWoodTypes.registerModWoodTypes();
+		ModCompostables.registerCompostableBlocks();
 		ModStrippableBlocks.registerStrippableBlocks();
 		ModFlammableBlocks.registerFlammableBlocks();
+		ModRegistryHelper.registerRegistryHelper();
+		ModFeatures.registerModFeatures();
+		ModConfiguredFeatures.registerModConfiguredFeatures();
+		ModSaplingGenerators.registerModSaplingGenerators();
 
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(output -> {
 			output.insertBefore(PALE_OAK_LOG, CONIFER_LOG, CONIFER_WOOD, STRIPPED_CONIFER_LOG, STRIPPED_CONIFER_WOOD,
@@ -38,6 +50,8 @@ public class TheLostIsles implements ModInitializer {
 		});
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(output -> {
 			output.insertBefore(PALE_OAK_LOG, CONIFER_LOG, CONIFER_WOOD);
+			output.insertBefore(PALE_OAK_LEAVES, CONIFER_LEAVES);
+			output.insertBefore(PALE_OAK_SAPLING, CONIFER_SAPLING);
 		});
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(output -> {
 			output.insertBefore(PALE_OAK_SHELF, CONIFER_SHELF);

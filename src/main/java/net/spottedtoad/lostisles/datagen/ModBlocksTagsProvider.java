@@ -34,13 +34,13 @@ public class ModBlocksTagsProvider extends FabricTagsProvider.BlockTagsProvider 
                 .add(ModBlocks.CONIFER_FENCE_GATE)
                 .add(ModBlocks.CONIFER_DOOR)
                 .add(ModBlocks.CONIFER_TRAPDOOR)
-                .add(ModBlocks.CONIFER_PRESSURE_PLATE)
-                .add(ModBlocks.CONIFER_BUTTON)
                 .add(ModBlocks.CONIFER_SHELF)
                 .add(ModBlocks.CONIFER_SIGN)
                 .add(ModBlocks.CONIFER_WALL_SIGN)
                 .add(ModBlocks.CONIFER_HANGING_SIGN)
                 .add(ModBlocks.CONIFER_WALL_HANGING_SIGN);
+        valueLookupBuilder(BlockTags.MINEABLE_WITH_HOE)
+                .add(ModBlocks.CONIFER_LEAVES);
 
         valueLookupBuilder(BlockTags.LOGS)
                 .add(ModBlocks.CONIFER_LOG)
@@ -49,6 +49,12 @@ public class ModBlocksTagsProvider extends FabricTagsProvider.BlockTagsProvider 
                 .add(ModBlocks.STRIPPED_CONIFER_WOOD);
 
         valueLookupBuilder(BlockTags.LOGS_THAT_BURN)
+                .add(ModBlocks.CONIFER_LOG)
+                .add(ModBlocks.CONIFER_WOOD)
+                .add(ModBlocks.STRIPPED_CONIFER_LOG)
+                .add(ModBlocks.STRIPPED_CONIFER_WOOD);
+
+        valueLookupBuilder(BlockTags.COMPLETES_FIND_TREE_TUTORIAL)
                 .add(ModBlocks.CONIFER_LOG)
                 .add(ModBlocks.CONIFER_WOOD)
                 .add(ModBlocks.STRIPPED_CONIFER_LOG)
@@ -69,5 +75,9 @@ public class ModBlocksTagsProvider extends FabricTagsProvider.BlockTagsProvider 
         valueLookupBuilder(BlockTags.WALL_SIGNS).add(ModBlocks.CONIFER_WALL_SIGN);
         valueLookupBuilder(BlockTags.CEILING_HANGING_SIGNS).add(ModBlocks.CONIFER_HANGING_SIGN);
         valueLookupBuilder(BlockTags.WALL_HANGING_SIGNS).add(ModBlocks.CONIFER_WALL_HANGING_SIGN);
+
+        valueLookupBuilder(BlockTags.SAPLINGS).add(ModBlocks.CONIFER_SAPLING);
+        valueLookupBuilder(BlockTags.FLOWER_POTS).add(ModBlocks.POTTED_CONIFER_SAPLING);
+        valueLookupBuilder(BlockTags.LEAVES).add(ModBlocks.CONIFER_LEAVES);
     }
 }

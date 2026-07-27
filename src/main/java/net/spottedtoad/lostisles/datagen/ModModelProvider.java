@@ -5,9 +5,13 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.spottedtoad.lostisles.block.ModBlocks;
 import net.spottedtoad.lostisles.item.ModItems;
+
+import static net.spottedtoad.lostisles.block.ModBlocks.*;
 
 public class ModModelProvider extends FabricModelProvider {
     public ModModelProvider(FabricPackOutput output) {
@@ -16,30 +20,29 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {
-        blockModelGenerators.createTrivialCube(ModBlocks.TEMPLATE_BLOCK_1);
 
-        blockModelGenerators.createAxisAlignedPillarBlock(ModBlocks.CONIFER_LOG, TexturedModel.COLUMN);
-        blockModelGenerators.createAxisAlignedPillarBlock(ModBlocks.STRIPPED_CONIFER_LOG, TexturedModel.COLUMN);
-        blockModelGenerators.createAxisAlignedPillarBlock(ModBlocks.CONIFER_WOOD, TexturedModel.COLUMN);
-        blockModelGenerators.createAxisAlignedPillarBlock(ModBlocks.STRIPPED_CONIFER_WOOD, TexturedModel.COLUMN);
+        //Adds models for conifer variants
+        blockModelGenerators.createAxisAlignedPillarBlock(CONIFER_LOG, TexturedModel.COLUMN);
+        blockModelGenerators.createAxisAlignedPillarBlock(STRIPPED_CONIFER_LOG, TexturedModel.COLUMN);
+        blockModelGenerators.createAxisAlignedPillarBlock(CONIFER_WOOD, TexturedModel.COLUMN);
+        blockModelGenerators.createAxisAlignedPillarBlock(STRIPPED_CONIFER_WOOD, TexturedModel.COLUMN);
+        blockModelGenerators.family(CONIFER_PLANKS)
+                .stairs(CONIFER_STAIRS)
+                .slab(CONIFER_SLAB)
+                .fence(CONIFER_FENCE)
+                .fenceGate(CONIFER_FENCE_GATE)
+                .pressurePlate(CONIFER_PRESSURE_PLATE)
+                .button(CONIFER_BUTTON);
+        blockModelGenerators.createDoor(CONIFER_DOOR);
+        blockModelGenerators.createTrapdoor(CONIFER_TRAPDOOR);
+        blockModelGenerators.createHangingSign(CONIFER_PLANKS, CONIFER_HANGING_SIGN, CONIFER_WALL_HANGING_SIGN);
+        blockModelGenerators.createShelf(CONIFER_SHELF, CONIFER_PLANKS);
+        blockModelGenerators.createPlantWithDefaultItem(CONIFER_SAPLING, POTTED_CONIFER_SAPLING, BlockModelGenerators.PlantType.NOT_TINTED);
 
-        blockModelGenerators.family(ModBlocks.CONIFER_PLANKS)
-                .stairs(ModBlocks.CONIFER_STAIRS)
-                .slab(ModBlocks.CONIFER_SLAB)
-                .fence(ModBlocks.CONIFER_FENCE)
-                .fenceGate(ModBlocks.CONIFER_FENCE_GATE)
-                .pressurePlate(ModBlocks.CONIFER_PRESSURE_PLATE)
-                .button(ModBlocks.CONIFER_BUTTON);
+        blockModelGenerators.createTintedLeaves(CONIFER_LEAVES, TexturedModel.LEAVES, 0x2ba33a);
 
-        blockModelGenerators.createDoor(ModBlocks.CONIFER_DOOR);
-        blockModelGenerators.createTrapdoor(ModBlocks.CONIFER_TRAPDOOR);
-        blockModelGenerators.createShelf(ModBlocks.CONIFER_SHELF, ModBlocks.STRIPPED_CONIFER_LOG);
 
-        blockModelGenerators.createHangingSign(
-                ModBlocks.CONIFER_PLANKS,
-                ModBlocks.CONIFER_HANGING_SIGN,
-                ModBlocks.CONIFER_WALL_HANGING_SIGN
-        );
+        blockModelGenerators.createTrivialCube(TEMPLATE_BLOCK_1);
     }
 
 

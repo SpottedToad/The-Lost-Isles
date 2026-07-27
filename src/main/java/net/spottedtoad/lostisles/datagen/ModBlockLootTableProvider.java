@@ -27,6 +27,9 @@ public class ModBlockLootTableProvider extends FabricBlockLootSubProvider {
     public void generate() {
         var enchantments = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
 
+        //Adds conifer variant drops
+        dropSelf(ModBlocks.CONIFER_SAPLING);
+        dropPottedContents(ModBlocks.POTTED_CONIFER_SAPLING);
         dropSelf(ModBlocks.CONIFER_LOG);
         dropSelf(ModBlocks.CONIFER_WOOD);
         dropSelf(ModBlocks.STRIPPED_CONIFER_LOG);
@@ -36,7 +39,7 @@ public class ModBlockLootTableProvider extends FabricBlockLootSubProvider {
         dropSelf(ModBlocks.CONIFER_SLAB);
         dropSelf(ModBlocks.CONIFER_FENCE);
         dropSelf(ModBlocks.CONIFER_FENCE_GATE);
-        dropSelf(ModBlocks.CONIFER_DOOR);
+        add(ModBlocks.CONIFER_DOOR, createDoorTable(ModBlocks.CONIFER_DOOR));
         dropSelf(ModBlocks.CONIFER_TRAPDOOR);
         dropSelf(ModBlocks.CONIFER_PRESSURE_PLATE);
         dropSelf(ModBlocks.CONIFER_BUTTON);
@@ -44,7 +47,11 @@ public class ModBlockLootTableProvider extends FabricBlockLootSubProvider {
         dropSelf(ModBlocks.CONIFER_WALL_SIGN);
         dropSelf(ModBlocks.CONIFER_HANGING_SIGN);
         dropSelf(ModBlocks.CONIFER_WALL_HANGING_SIGN);
+        dropSelf(ModBlocks.CONIFER_SHELF);
 
+        add(ModBlocks.CONIFER_LEAVES, createLeavesDrops(ModBlocks.CONIFER_LEAVES, ModBlocks.CONIFER_SAPLING, 0.05f, 0.0625f, 0.083333336f, 0.1f));
+
+        //Adds template block drops
         add(ModBlocks.TEMPLATE_BLOCK_1, createOreDrop(ModBlocks.TEMPLATE_BLOCK_1, ModItems.TEMPLATE_ITEM_1));
     }
 

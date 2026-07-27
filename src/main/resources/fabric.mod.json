@@ -24,7 +24,7 @@
 		"client": [
 			"net.spottedtoad.lostisles.TheLostIslesClient"
 		],
-		"datagen": [
+		"fabric-datagen": [
 			"net.spottedtoad.lostisles.TheLostIslesDataGenerator"
 		]
 	},
