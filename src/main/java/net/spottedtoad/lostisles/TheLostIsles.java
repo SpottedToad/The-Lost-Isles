@@ -15,6 +15,7 @@ import net.spottedtoad.lostisles.util.ModStrippableBlocks;
 import net.spottedtoad.lostisles.world.ModConfiguredFeatures;
 import net.spottedtoad.lostisles.world.ModFeatures;
 import net.spottedtoad.lostisles.world.ModSaplingGenerators;
+import net.spottedtoad.lostisles.world.ModWorldGen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,7 @@ public class TheLostIsles implements ModInitializer {
 		ModStrippableBlocks.registerStrippableBlocks();
 		ModFlammableBlocks.registerFlammableBlocks();
 		ModRegistryHelper.registerRegistryHelper();
+		ModWorldGen.registerModWorldGen();
 		ModFeatures.registerModFeatures();
 		ModConfiguredFeatures.registerModConfiguredFeatures();
 		ModSaplingGenerators.registerModSaplingGenerators();
