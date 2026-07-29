@@ -30,14 +30,10 @@ public class ConiferFoliagePlacer extends FoliagePlacer {
         return ModWorldGen.CONIFER_FOLIAGE_PLACER;
     }
 
-
     @Override
     public int foliageHeight(RandomSource random, int treeHeight, TreeConfiguration config) {
-        // Defines the number of layers downwards will be filled with leaves starting at the top log
         return 14;
     }
-
-
     @Override
     protected void createFoliage(
     final WorldGenLevel level,
@@ -50,60 +46,213 @@ public class ConiferFoliagePlacer extends FoliagePlacer {
     final int leafRadius,
     final int offset
     ) {
-        BlockPos topCenter = foliageAttachment.pos();
-        for (int layer = 0; layer < 14; layer++) {
-            BlockPos layerCenter = foliageAttachment.pos().below(layer);
+        BlockPos topCenter = foliageAttachment.pos().below();
+        for (int layer = 0; layer <= 14; layer++) {
+            BlockPos layerCenter = topCenter.below(layer);
             switch (layer) {
-                case 0 -> { // Layer 1: Tree Top
-                    placeLeaf(level, foliageSetter, config, layerCenter.above(), random);}
-                case 1 -> { // Layer 2: Thin layer below tree top
-                    placeThinCross(level, foliageSetter, config, layerCenter, random);}
-                case 2 -> { // Layer 3: Blank Air Gap
+                // TOP BLOCK
+                case 0 -> { // Layer 0: Tree top
+                    placeFoliageTop(level, foliageSetter, config, layerCenter, random);
                     }
-                case 3 -> { // Layer 4: 1-block thin cross layer
-                    placeThinCross(level, foliageSetter, config, layerCenter, random);}
-                case 4 -> { // Layer 5: Blank Air Gap
+                case 1 -> { // Layer 1: Very thin layer
+                    placeThinB(level, foliageSetter, config, layerCenter, random);
                     }
-                case 5, 6 -> { // Layers 6 & 7: THIRD BLOCK
-                    placeMediumCross(level, foliageSetter, config, layerCenter, random);}
-                case 7 -> { // Layer 8: Blank Air Gap
+                // FIRST BLOCK
+                case 2 -> { // Layer 2: Wide layer
+                    placeWideA(level, foliageSetter, config, layerCenter, random);
                     }
-                case 8, 9, 10 -> { // Layers 9, 10, 11: FOURTH BLOCK
-                    placeFullSquare(level, foliageSetter, config, layerCenter, random);}
-                case 11 -> { // Layer 12: Blank Air Gap
+                case 3 -> { // Layer 3: Very thin layer
+                    placeThinB(level, foliageSetter, config, layerCenter, random);
                     }
-                case 12, 13 -> { // Layers 13 & 14: BOTTOM BLOCK
-                    placeFullSquare(level, foliageSetter, config, layerCenter, random);
+                // SECOND BLOCK
+                case 4 -> { // Layer 4: Wide layer
+                    placeWideA(level, foliageSetter, config, layerCenter, random);
                     }
-            }
-        }
-    }
-    // Small "+" around the log
-    private void placeThinCross(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
-        placeLeaf(lvl, setter, cfg, pos.north(), rand);
-        placeLeaf(lvl, setter, cfg, pos.east(), rand);
-        placeLeaf(lvl, setter, cfg, pos.south(), rand);
-        placeLeaf(lvl, setter, cfg, pos.west(), rand);
-    }
-    // Medium "+" around the log with randomly filled corners
-    private void placeMediumCross(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
-        placeThinCross(lvl, setter, cfg, pos, rand);
-        if (rand.nextBoolean()) placeLeaf(lvl, setter, cfg, pos.north().east(), rand);
-        if (rand.nextBoolean()) placeLeaf(lvl, setter, cfg, pos.south().east(), rand);
-        if (rand.nextBoolean()) placeLeaf(lvl, setter, cfg, pos.south().west(), rand);
-        if (rand.nextBoolean()) placeLeaf(lvl, setter, cfg, pos.north().west(), rand);
-    }
-    // 3x3 block around log
-    private void placeFullSquare(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dz = -1; dz <= 1; dz++) {
-                if (dx != 0 || dz != 0) {
-                    placeLeaf(lvl, setter, cfg, pos.offset(dx, 0, dz), rand);
+                case 5 -> { // Layer 5: Very wide layer
+                    placeWideB(level, foliageSetter, config, layerCenter, random);
+                    }
+                case 6 -> { // Layer 6: Wide layer
+                    placeWideA(level, foliageSetter, config, layerCenter, random);
+                    }
+                case 7 -> { // Layer 7: Thin layer
+                    placeThinA(level, foliageSetter, config, layerCenter, random);
+                    }
+                // THIRD BLOCK
+                case 8, 9 -> { // Layers 8 & 9: Very, very wide layers
+                    placeWideC(level, foliageSetter, config, layerCenter, random);
+                }
+                case 10 -> { // Layer 10: Wide layer
+                    placeWideA(level, foliageSetter, config, layerCenter, random);
+                }
+                //FOURTH BLOCK
+                case 11 -> { // Layer 11: Very wide layer
+                    placeWideB(level, foliageSetter, config, layerCenter, random);
+                    }
+                case 12 -> { // Layers 12: Very thin layer
+                    placeThinB(level, foliageSetter, config, layerCenter, random);
+                    }
+                // BOTTOM BLOCK
+                case 13 -> { // Wide layer
+                    placeWideA(level, foliageSetter, config, layerCenter, random);
+                }
+                case 14 -> { // Very, Very thin layer
+                    placeFoliageBottom(level, foliageSetter, config, layerCenter, random);
                 }
             }
         }
     }
 
+
+    //Tree bottom
+    private void placeFoliageBottom(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
+        // Inner "+"  at 25% chance per block
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.north(), rand);
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.east(), rand);
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.south(), rand);
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.west(), rand);
+    }
+    // Very Thin Layer
+    private void placeThinB(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
+        // Inner "+"
+        placeLeaf(lvl, setter, cfg, pos.north(), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(), rand);
+        // Inner "+" corners at 25% chance per block
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.north().east(), rand);
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.south().east(), rand);
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.south().west(), rand);
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.north().west(), rand);
+    }
+    // Thin Layer
+    private void placeThinA(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
+        // Inner "+"
+        placeLeaf(lvl, setter, cfg, pos.north(), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(), rand);
+        // Filled "+" corners at 90% chance per block
+        if (rand.nextFloat() < 0.90f) placeLeaf(lvl, setter, cfg, pos.north().east(), rand);
+        if (rand.nextFloat() < 0.90f) placeLeaf(lvl, setter, cfg, pos.south().east(), rand);
+        if (rand.nextFloat() < 0.90f) placeLeaf(lvl, setter, cfg, pos.south().west(), rand);
+        if (rand.nextFloat() < 0.90f) placeLeaf(lvl, setter, cfg, pos.north().west(), rand);
+        // Outer "+" at 75% chance per block
+        if (rand.nextFloat() < 0.75f) placeLeaf(lvl, setter, cfg, pos.north(2), rand);
+        if (rand.nextFloat() < 0.75f) placeLeaf(lvl, setter, cfg, pos.east(2), rand);
+        if (rand.nextFloat() < 0.75f) placeLeaf(lvl, setter, cfg, pos.south(2), rand);
+        if (rand.nextFloat() < 0.75f) placeLeaf(lvl, setter, cfg, pos.west(2), rand);
+    }
+    //Tree top
+    private void placeFoliageTop(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
+        // Lower "+" and two blocks above
+        placeLeaf(lvl, setter, cfg, pos.north(), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(), rand);
+        placeLeaf(lvl, setter, cfg, pos.above(), rand);
+        placeLeaf(lvl, setter, cfg, pos.above(2), rand);
+        // Upper "+" sides at 25% chance per block
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.above().north(), rand);
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.above().east(), rand);
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.above().south(), rand);
+        if (rand.nextFloat() < 0.25f) placeLeaf(lvl, setter, cfg, pos.above().west(), rand);
+    }
+    // Wide Layer
+    private void placeWideA(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
+        // Inner "+"
+        placeLeaf(lvl, setter, cfg, pos.north(), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(), rand);
+        // Filled "+" corners at 75% chance per block
+        if (rand.nextFloat() < 0.75f) placeLeaf(lvl, setter, cfg, pos.north().east(), rand);
+        if (rand.nextFloat() < 0.75f) placeLeaf(lvl, setter, cfg, pos.south().east(), rand);
+        if (rand.nextFloat() < 0.75f) placeLeaf(lvl, setter, cfg, pos.south().west(), rand);
+        if (rand.nextFloat() < 0.75f) placeLeaf(lvl, setter, cfg, pos.north().west(), rand);
+        // Outer "+" at 90% chance per block
+        if (rand.nextFloat() < 0.90f) placeLeaf(lvl, setter, cfg, pos.north(2), rand);
+        if (rand.nextFloat() < 0.90f) placeLeaf(lvl, setter, cfg, pos.east(2), rand);
+        if (rand.nextFloat() < 0.90f) placeLeaf(lvl, setter, cfg, pos.south(2), rand);
+        if (rand.nextFloat() < 0.90f) placeLeaf(lvl, setter, cfg, pos.west(2), rand);
+        // Filled outer "+" inner corners at 12% chance per block
+        if (rand.nextFloat() < 0.12f) placeLeaf(lvl, setter, cfg, pos.north(2).east(), rand);
+        if (rand.nextFloat() < 0.12f) placeLeaf(lvl, setter, cfg, pos.north(2).west(), rand);
+        if (rand.nextFloat() < 0.12f) placeLeaf(lvl, setter, cfg, pos.east(2).north(), rand);
+        if (rand.nextFloat() < 0.12f) placeLeaf(lvl, setter, cfg, pos.east(2).south(), rand);
+        if (rand.nextFloat() < 0.12f) placeLeaf(lvl, setter, cfg, pos.south(2).east(), rand);
+        if (rand.nextFloat() < 0.12f) placeLeaf(lvl, setter, cfg, pos.south(2).west(), rand);
+        if (rand.nextFloat() < 0.12f) placeLeaf(lvl, setter, cfg, pos.west(2).south(), rand);
+        if (rand.nextFloat() < 0.12f) placeLeaf(lvl, setter, cfg, pos.west(2).north(), rand);
+    }
+    // Very Wide Layer
+    private void placeWideB(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
+        // Inner "+"
+        placeLeaf(lvl, setter, cfg, pos.north(), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(), rand);
+        // Filled inner "+" corners
+        placeLeaf(lvl, setter, cfg, pos.north().east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south().east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south().west(), rand);
+        placeLeaf(lvl, setter, cfg, pos.north().west(), rand);
+        // Outer "+"
+        placeLeaf(lvl, setter, cfg, pos.north(2), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(2), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(2), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(2), rand);
+        // Filled outer "+" inner corners at 80% chance per block
+        if (rand.nextFloat() < 0.80f) placeLeaf(lvl, setter, cfg, pos.north(2).east(), rand);
+        if (rand.nextFloat() < 0.80f) placeLeaf(lvl, setter, cfg, pos.north(2).west(), rand);
+        if (rand.nextFloat() < 0.80f) placeLeaf(lvl, setter, cfg, pos.east(2).north(), rand);
+        if (rand.nextFloat() < 0.80f) placeLeaf(lvl, setter, cfg, pos.east(2).south(), rand);
+        if (rand.nextFloat() < 0.80f) placeLeaf(lvl, setter, cfg, pos.south(2).east(), rand);
+        if (rand.nextFloat() < 0.80f) placeLeaf(lvl, setter, cfg, pos.south(2).west(), rand);
+        if (rand.nextFloat() < 0.80f) placeLeaf(lvl, setter, cfg, pos.west(2).south(), rand);
+        if (rand.nextFloat() < 0.80f) placeLeaf(lvl, setter, cfg, pos.west(2).north(), rand);
+    }
+    // Very, Very Wide Layer
+    private void placeWideC(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
+        // Inner "+"
+        placeLeaf(lvl, setter, cfg, pos.north(), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(), rand);
+        // Filled inner "+" corners
+        placeLeaf(lvl, setter, cfg, pos.north().east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south().east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south().west(), rand);
+        placeLeaf(lvl, setter, cfg, pos.north().west(), rand);
+        // Outer "+"
+        placeLeaf(lvl, setter, cfg, pos.north(2), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(2), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(2), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(2), rand);
+        // Filled outer "+" inner corners
+        placeLeaf(lvl, setter, cfg, pos.north(2).east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.north(2).west(), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(2).north(), rand);
+        placeLeaf(lvl, setter, cfg, pos.east(2).south(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(2).east(), rand);
+        placeLeaf(lvl, setter, cfg, pos.south(2).west(), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(2).south(), rand);
+        placeLeaf(lvl, setter, cfg, pos.west(2).north(), rand);
+        // Outermost "+" at 50% chance per block
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.north(3), rand);
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.east(3), rand);
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.south(3), rand);
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.west(3), rand);
+        // Outermost "+" inner corners at 50% chance per block
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.north(3).east(), rand);
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.south(3).east(), rand);
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.south(3).west(), rand);
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.north(3).west(), rand);
+        // Outermost "+" outer corners at 50% chance per block
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.north(2).east(2), rand);
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.south(2).east(2), rand);
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.south(2).west(2), rand);
+        if (rand.nextFloat() < 0.50f) placeLeaf(lvl, setter, cfg, pos.north(2).west(2), rand);
+    }
     private void placeLeaf(WorldGenLevel lvl, FoliageSetter setter, TreeConfiguration cfg, BlockPos pos, RandomSource rand) {
         setter.set(pos, cfg.foliageProvider.getState(lvl, rand, pos));
     }

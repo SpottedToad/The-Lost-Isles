@@ -12,7 +12,7 @@ import net.spottedtoad.lostisles.world.trees.ConiferTrunkPlacer;
 public class ModFeatures {
     public static final TreeConfiguration CONIFER_TREE_CONFIG = new TreeConfiguration.TreeConfigurationBuilder(
             BlockStateProvider.simple(ModBlocks.CONIFER_LOG.defaultBlockState()),
-            new ConiferTrunkPlacer(19, 2, 3),
+            new ConiferTrunkPlacer(16, 2, 4),
             BlockStateProvider.simple(ModBlocks.CONIFER_LEAVES.defaultBlockState()),
             new ConiferFoliagePlacer(ConstantInt.of(2), ConstantInt.of(2), ConstantInt.of(2)),
             new TwoLayersFeatureSize(2, 0, 4)
