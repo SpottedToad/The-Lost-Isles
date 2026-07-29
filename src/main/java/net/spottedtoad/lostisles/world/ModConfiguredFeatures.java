@@ -16,8 +16,6 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> CONIFER_TREE = resourceKey("conifer_tree");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
-        HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
 
         ModRegistryHelper.register(context, CONIFER_TREE, Feature.TREE, ModFeatures.CONIFER_TREE_CONFIG);
     }

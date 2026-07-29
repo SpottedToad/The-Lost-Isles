@@ -39,7 +39,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockModelGenerators.createShelf(CONIFER_SHELF, CONIFER_PLANKS);
         blockModelGenerators.createPlantWithDefaultItem(CONIFER_SAPLING, POTTED_CONIFER_SAPLING, BlockModelGenerators.PlantType.NOT_TINTED);
 
-        blockModelGenerators.createTintedLeaves(CONIFER_LEAVES, TexturedModel.LEAVES, 0x2ba33a);
+        blockModelGenerators.createTintedLeaves(CONIFER_LEAVES, TexturedModel.LEAVES, 0xbace76);
 
 
         blockModelGenerators.createTrivialCube(TEMPLATE_BLOCK_1);

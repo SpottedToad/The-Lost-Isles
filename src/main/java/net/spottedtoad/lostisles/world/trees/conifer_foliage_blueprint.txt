@@ -1,0 +1,84 @@
+important note: .x chance -> refers to the fact that each individual direction has a .x chance of being formed. it does not mean that there is a .x chance that all listed directions are added.
+
+TOP BLOCK [
+(tree top) layer 0; calculating from the position of the top log ->
+create leaf blocks to the north, east, south, west, up, and up.up.
+.25 chance to create leaf blocks at north.up, east.up, south.up, and west.up.
+
+(thin layer a) layer 1; calculating from the position 1 block below the top log ->
+create leaf blocks to the north, east, south, and west.
+.25 chance to create leaf blocks at north.east, south.east, south.west, and north.west.
+]
+
+FIRST BLOCK [
+(wide layer a) layer 2; calculating from the position 1 block below layer 1's position ->
+create leaf blocks to the north, east, south, and west.
+.9 chance to create leaf blocks at north.north, east.east, south.south, and west.west.
+.75 chance to create leaf blocks at north.east, south.east, south.west, and north.west.
+.12 chance to create leaf blocks at north.north.east, south.south.east, south.south.west, and north.north.west.
+
+(thin layer a) layer 3; calculating from the position 1 block below layer 2's position ->
+create leaf blocks to the north, east, south, and west.
+.25 chance to create leaf blocks to the north.east, south.east, south.west, and north.west.
+]
+
+SECOND BLOCK [
+(wide layer a) layer 4; calculating from the position 1 block below layer 3's position ->
+create leaf blocks to the north, east, south, and west.
+.9 chance to create leaf blocks at north.north, east.east, south.south, and west.west.
+.75 chance to create leaf blocks at north.east, south.east, south.west, and north.west.
+.12 chance to create leaf blocks at north.north.east, south.south.east, south.south.west, and north.north.west.
+
+(wide layer b) layer 5; calculating from the position 1 block below layer 4's position ->
+create leaf blocks to the north, east, south, west, north.east, south.east, south.west, and north.west.
+.9 chance to create leaf blocks at north.north, east.east, south.south, and west.west.
+.75 chance to create leaf blocks at north.north.east, south.south.east, south.south.west, and north.north.west.
+
+(wide layer a) layer 6; calculating from the position 1 block below layer 5's position ->
+create leaf blocks to the north, east, south, and west.
+.9 chance to create leaf blocks at north.north, east.east, south.south, and west.west.
+.75 chance to create leaf blocks at north.east, south.east, south.west, and north.west.
+.12 chance to create leaf blocks at north.north.east, south.south.east, south.south.west, and north.north.west.
+
+(thin layer b) layer 7; calculating from the position 1 block below layer 6's position ->
+create leaf blocks to the north, east, south, west, up.
+.9 chance to create leaf blocks to the north.east, south.east, south.west, and north.west.
+.75 chance to create leaf blocks to the north.north, east.east, south.south, and west.west.
+]
+
+THIRD BLOCK [
+(wide layer c) layer 8; calculating from the position 1 block below layer 7's position ->
+create leaf blocks to the north, east, south, west, north.east, south.east, south.west, north.west, north.north, east.east, south.south, west.west, north.north.east, south.south.east, south.south.west, and north.north.west.
+.5 chance to create leaf blocks to the north.north.north, east.east.east, south.south.south, west.west.west, north.north.north.east, south.south.south.east, south.south.south.west, north.north.north.west, north.north.east.east, south.south.east.east, south.south.west.west, and north.north.west.west.
+
+(wide layer c) layer 9; calculating from the position 1 block below layer 8's position ->
+create leaf blocks to the north, east, south, west, north.east, south.east, south.west, north.west, north.north, east.east, south.south, west.west, north.north.east, south.south.east, south.south.west, and north.north.west.
+.5 chance to create leaf blocks to the north.north.north, east.east.east, south.south.south, west.west.west, north.north.north.east, south.south.south.east, south.south.south.west, north.north.north.west, north.north.east.east, south.south.east.east, south.south.west.west, and north.north.west.west.
+
+(wide layer a; acts as a thin layer for wide layer c) layer 10; calculating from the position 1 block below layer 9's position ->
+create leaf blocks to the north, east, south, west, up.
+.9 chance to create leaf blocks to the north.east, south.east, south.west, and north.west.
+.75 chance to create leaf blocks to the north.north, east.east, south.south, and west.west.
+.12 chance to create leaf blocks at north.north.east, south.south.east, south.south.west, and north.north.west.
+]
+
+FOURTH BLOCK [
+(wide layer b) layer 11; calculating from the position 1 block below layer 10's position ->
+create leaf blocks to the north, east, south, west, north.east, south.east, south.west, north.west, north.north, east.east, south.south, and west.west.
+.9 chance to create leaf blocks at north.north.east, south.south.east, south.south.west, and north.north.west.
+
+(thin layer a) layer 12; calculating from the position 1 block below layer 11's position ->
+create leaf blocks to the north, east, south, and west.
+.25 chance to create leaf blocks at north.east, south.east, south.west, and north.west.
+]
+
+BOTTOM BLOCK [
+(wide layer a) layer 13; calculating from the position 1 block below layer 12's position ->
+create leaf blocks to the north, east, south, west, north.east, south.east, south.west, and north.west.
+.9 chance to create leaf blocks at north.north, east.east, south.south, and west.west.
+.75 chance to create leaf blocks at north.east, south.east, south.west, and north.west.
+.12 chance to create leaf blocks at north.north.east, south.south.east, south.south.west, and north.north.west.
+
+(foliage bottom) layer end;
+.25 chance to create leaf blocks at north.up, east.up, south.up, and west.up.
+]

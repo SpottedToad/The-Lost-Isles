@@ -1,7 +1,8 @@
-package net.spottedtoad.lostisles.world;
+package net.spottedtoad.lostisles.world.trees;
 
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.spottedtoad.lostisles.TheLostIsles;
+import net.spottedtoad.lostisles.world.ModConfiguredFeatures;
 
 import java.util.Optional;
 

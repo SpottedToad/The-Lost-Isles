@@ -17,7 +17,7 @@ public class TheLostIslesClient implements ClientModInitializer {
 
     private static void registerConiferLeafColor(){
         BlockColorRegistry.register(
-            List.of(BlockTintSources.constant(0xFF2ba33a)),
+            List.of(BlockTintSources.constant(0xFFbace76)),
             ModBlocks.CONIFER_LEAVES
         );
     }
