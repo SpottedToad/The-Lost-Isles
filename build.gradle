@@ -7,6 +7,15 @@ group = project.maven_group
 version = project.mod_version
 
 repositories {
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = 'GeckoLib'
+				url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+			}
+		}
+		filter { includeGroupAndSubgroups('com.geckolib') }
+	}
 	maven {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/releases/'
@@ -26,6 +35,7 @@ dependencies {
 
 	implementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
 	include "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
+	implementation "com.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}"
 }
 
 processResources {
