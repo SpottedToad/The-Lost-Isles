@@ -15,7 +15,7 @@ public class CeratosaurusRenderer<R extends EntityRenderState & GeoRenderState> 
         super(context, new CeratosaurusModel());
     }
 
-    private static final String[] NECK_CHAIN = {"n1", "n2", "n3", "head"};
+    private static final String[] NECK_CHAIN = {"n1", "n2", "n3"};
     private float smoothYaw = 0;
     private float smoothPitch = 0;
 
@@ -42,5 +42,12 @@ public class CeratosaurusRenderer<R extends EntityRenderState & GeoRenderState> 
                 boneSnapshot.setRotX(boneSnapshot.getRotX() + (pitchPerSegment * Mth.DEG_TO_RAD));
             });
         }
+
+        snapshots.ifPresent("head", headSnapshot -> {
+            float headYawCorrection = this.smoothYaw - (yawPerSegment * segments);
+            float headPitchCorrection = this.smoothPitch - (pitchPerSegment * segments);
+            headSnapshot.setRotY(headSnapshot.getRotY() - (headYawCorrection * Mth.DEG_TO_RAD));
+            headSnapshot.setRotX(headSnapshot.getRotX() + (headPitchCorrection * Mth.DEG_TO_RAD));
+        });
     }
 }
