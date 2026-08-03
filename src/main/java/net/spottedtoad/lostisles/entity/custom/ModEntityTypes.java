@@ -15,7 +15,7 @@ public class ModEntityTypes {
     public static final EntityType<CeratosaurusEntity> CERATOSAURUS = register(
             "ceratosaurus",
             EntityType.Builder.<CeratosaurusEntity>of(CeratosaurusEntity::new, MobCategory.MISC)
-                    .sized(0.75f, 1.75f)
+                    .sized(1f, 2f)
     );
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {

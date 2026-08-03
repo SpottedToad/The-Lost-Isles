@@ -14,6 +14,7 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.cow.Cow;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -40,10 +41,11 @@ public class CeratosaurusEntity extends PathfinderMob implements GeoEntity {
     //AI
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new TemptGoal(this, 1, Ingredient.of(Items.WHEAT), false));
+        this.goalSelector.addGoal(0, new TemptGoal(this, 1, Ingredient.of(Items.BEEF), false));
         this.goalSelector.addGoal(1, new RandomStrollGoal(this, 1));
-        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Cow.class, 4));
-        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Cow.class, 10));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 10));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
     }
 
     //Geckolib stuff
