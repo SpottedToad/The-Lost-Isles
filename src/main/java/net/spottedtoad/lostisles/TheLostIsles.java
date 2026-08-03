@@ -2,9 +2,12 @@ package net.spottedtoad.lostisles;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.spottedtoad.lostisles.block.ModBlocks;
+import net.spottedtoad.lostisles.entity.custom.CeratosaurusEntity;
+import net.spottedtoad.lostisles.entity.custom.ModEntityTypes;
 import net.spottedtoad.lostisles.init.ModRegistryHelper;
 import net.spottedtoad.lostisles.util.ModCompostables;
 import net.spottedtoad.lostisles.block.ModWoodTypes;
@@ -21,6 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import static net.minecraft.world.item.Items.*;
 import static net.spottedtoad.lostisles.block.ModBlocks.*;
+import static net.spottedtoad.lostisles.entity.custom.ModEntityTypes.CERATOSAURUS;
+import static net.spottedtoad.lostisles.item.ModItems.CERATOSAURUS_SPAWN_EGG;
 
 public class TheLostIsles implements ModInitializer {
 	public static final String MOD_ID = "lostisles";
@@ -42,6 +47,9 @@ public class TheLostIsles implements ModInitializer {
 		ModFeatures.registerModFeatures();
 		ModConfiguredFeatures.registerModConfiguredFeatures();
 		ModSaplingGenerators.registerModSaplingGenerators();
+		ModEntityTypes.registerModEntityTypes();
+
+		FabricDefaultAttributeRegistry.register(CERATOSAURUS, CeratosaurusEntity.createCeratosaurusAttributes());
 
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(output -> {
 			output.insertBefore(PALE_OAK_LOG, CONIFER_LOG, CONIFER_WOOD, STRIPPED_CONIFER_LOG, STRIPPED_CONIFER_WOOD,
@@ -71,6 +79,7 @@ public class TheLostIsles implements ModInitializer {
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(output -> {
 		});
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.SPAWN_EGGS).register(output -> {
+			output.insertAfter(SHULKER_SPAWN_EGG, CERATOSAURUS_SPAWN_EGG);
 		});
 	}
 }

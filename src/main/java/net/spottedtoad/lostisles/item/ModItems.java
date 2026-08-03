@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.spottedtoad.lostisles.TheLostIsles;
 import net.spottedtoad.lostisles.block.ModBlocks;
+import net.spottedtoad.lostisles.entity.custom.ModEntityTypes;
 
 import java.util.function.Function;
 
@@ -20,6 +21,8 @@ public class ModItems {
     //Adds custom items
     public static final Item TEMPLATE_ITEM_1 = registerItem("template_item_1", Item::new);
     public static final Item TEMPLATE_ITEM_2 = registerItem("template_item_2", Item::new);
+    public static final Item CERATOSAURUS_SPAWN_EGG = registerItem("ceratosaurus_spawn_egg",
+            properties -> new SpawnEggItem(properties.spawnEgg(ModEntityTypes.CERATOSAURUS)));
 
     //Adds sign items with WOOD API
     public static final SignItem CONIFER_SIGN = registerSignItem("conifer_sign",
