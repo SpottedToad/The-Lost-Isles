@@ -39,6 +39,8 @@ public class ModTabs {
                         output.accept(ModBlocks.CONIFER_LEAVES);
                         output.accept(ModBlocks.CONIFER_SAPLING);
 
+                        output.accept(ModItems.CERATOSAURUS_SPAWN_EGG);
+
                         output.accept(ModBlocks.TEMPLATE_BLOCK_1);
                         output.accept(ModItems.TEMPLATE_ITEM_1);
                         output.accept(ModItems.TEMPLATE_ITEM_2);

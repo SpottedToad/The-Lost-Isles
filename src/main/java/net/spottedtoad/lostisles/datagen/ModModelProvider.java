@@ -41,7 +41,6 @@ public class ModModelProvider extends FabricModelProvider {
 
         blockModelGenerators.createTintedLeaves(CONIFER_LEAVES, TexturedModel.LEAVES, 0xbace76);
 
-
         blockModelGenerators.createTrivialCube(TEMPLATE_BLOCK_1);
     }
 
@@ -50,6 +49,8 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerators itemModelGenerators) {
         itemModelGenerators.generateFlatItem(ModItems.TEMPLATE_ITEM_1, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.TEMPLATE_ITEM_2, ModelTemplates.FLAT_ITEM);
+
+        itemModelGenerators.generateFlatItem(ModItems.CERATOSAURUS_SPAWN_EGG, ModelTemplates.FLAT_ITEM);
 
         itemModelGenerators.generateFlatItem(ModItems.CONIFER_SIGN, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.CONIFER_BOAT, ModelTemplates.FLAT_ITEM);
