@@ -1,5 +1,8 @@
 package net.spottedtoad.lostisles;
 
+import com.terraformersmc.biolith.api.surface.SurfaceGeneration;
+import com.terraformersmc.biolith.impl.Biolith;
+import com.terraformersmc.biolith.impl.BiolithInit;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -15,8 +18,11 @@ import net.spottedtoad.lostisles.item.ModItems;
 import net.spottedtoad.lostisles.tab.ModTabs;
 import net.spottedtoad.lostisles.util.ModFlammableBlocks;
 import net.spottedtoad.lostisles.util.ModStrippableBlocks;
+import net.spottedtoad.lostisles.world.ModBiomePlacement;
 import net.spottedtoad.lostisles.world.ModConfiguredFeatures;
 import net.spottedtoad.lostisles.world.ModFeatures;
+import net.spottedtoad.lostisles.world.biomes.ModBiomes;
+import net.spottedtoad.lostisles.world.biomes.ModSurfaceRules;
 import net.spottedtoad.lostisles.world.trees.ModSaplingGenerators;
 import net.spottedtoad.lostisles.world.ModWorldGen;
 import org.slf4j.Logger;
@@ -38,6 +44,9 @@ public class TheLostIsles implements ModInitializer {
 		ModTabs.registerModTabs();
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+		ModEntityTypes.registerModEntityTypes();
+		ModBiomes.registerModBiomes();
+		ModBiomePlacement.registerModBiomePlacement();
 		ModWoodTypes.registerModWoodTypes();
 		ModCompostables.registerCompostableBlocks();
 		ModStrippableBlocks.registerStrippableBlocks();
@@ -47,9 +56,13 @@ public class TheLostIsles implements ModInitializer {
 		ModFeatures.registerModFeatures();
 		ModConfiguredFeatures.registerModConfiguredFeatures();
 		ModSaplingGenerators.registerModSaplingGenerators();
-		ModEntityTypes.registerModEntityTypes();
 
 		FabricDefaultAttributeRegistry.register(CERATOSAURUS, CeratosaurusEntity.createCeratosaurusAttributes());
+
+		SurfaceGeneration.addOverworldSurfaceRules(
+				Identifier.fromNamespaceAndPath("lostisles", "rules/overworld"),
+				ModSurfaceRules.overworld()
+		);
 
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(output -> {
 			output.insertBefore(PALE_OAK_LOG, CONIFER_LOG, CONIFER_WOOD, STRIPPED_CONIFER_LOG, STRIPPED_CONIFER_WOOD,

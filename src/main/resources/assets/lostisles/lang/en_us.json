@@ -29,6 +29,10 @@
   "entity.lostisles.ceratosaurus": "Ceratosaurus",
   "item.lostisles.ceratosaurus_spawn_egg": "Ceratosaurus Spawn Egg",
 
+  "biome.lostisles.primordial_island": "Primordial Island",
+  "biome.lostisles.primordial_ocean": "Primordial Ocean",
+  "biome.lostisles.deep_primordial_ocean": "Deep Primordial Ocean",
+
   "block.lostisles.template_block_1": "Cultist Block",
   "item.lostisles.template_item_1": "Red X",
   "item.lostisles.template_item_2": "Another Red X?",
