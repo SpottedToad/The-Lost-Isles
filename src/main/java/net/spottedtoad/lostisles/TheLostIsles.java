@@ -45,8 +45,6 @@ public class TheLostIsles implements ModInitializer {
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
 		ModEntityTypes.registerModEntityTypes();
-		ModBiomes.registerModBiomes();
-		ModBiomePlacement.registerModBiomePlacement();
 		ModWoodTypes.registerModWoodTypes();
 		ModCompostables.registerCompostableBlocks();
 		ModStrippableBlocks.registerStrippableBlocks();
@@ -61,8 +59,9 @@ public class TheLostIsles implements ModInitializer {
 
 		SurfaceGeneration.addOverworldSurfaceRules(
 				Identifier.fromNamespaceAndPath("lostisles", "rules/overworld"),
-				ModSurfaceRules.overworld()
-		);
+				ModSurfaceRules.overworld());
+		ModBiomes.registerModBiomes();
+		ModBiomePlacement.registerModBiomePlacement();
 
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(output -> {
 			output.insertBefore(PALE_OAK_LOG, CONIFER_LOG, CONIFER_WOOD, STRIPPED_CONIFER_LOG, STRIPPED_CONIFER_WOOD,
