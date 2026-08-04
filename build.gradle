@@ -14,7 +14,9 @@ repositories {
 				url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
 			}
 		}
-		filter { includeGroupAndSubgroups('com.geckolib') }
+		filter {
+			includeGroupAndSubgroups('com.geckolib')
+		}
 	}
 	maven {
 		name = 'TerraformersMC'
@@ -34,6 +36,7 @@ dependencies {
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	implementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
+	implementation "com.terraformersmc:biolith-fabric:${project.biolith_version}"
 	include "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
 	implementation "com.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}"
 }
@@ -43,8 +46,9 @@ processResources {
 	inputs.property "minecraft_version", minecraft_version
 	inputs.property "loader_version", loader_version
 	inputs.property "java_version", java_version
-	inputs.property "geckolib_version", geckolib_version
 	inputs.property "loom_version", loom_version
+	inputs.property "geckolib_version", geckolib_version
+	inputs.property "biolith_version", biolith_version
 
 	filesMatching("fabric.mod.json") {
 		expand(
@@ -54,6 +58,7 @@ processResources {
 				"java_version": java_version,
 				"loom_version": loom_version,
 				"geckolib_version": geckolib_version,
+				"biolith_version": biolith_version
 		)
 	}
 }
