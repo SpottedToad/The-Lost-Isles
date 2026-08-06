@@ -1,4 +1,4 @@
-package net.spottedtoad.lostisles.world.trees;
+package net.spottedtoad.lostisles.world.tree;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
-import net.spottedtoad.lostisles.world.ModWorldGen;
+import net.spottedtoad.lostisles.world.gen.ModWorldGen;
 
 import java.util.ArrayList;
 import java.util.List;

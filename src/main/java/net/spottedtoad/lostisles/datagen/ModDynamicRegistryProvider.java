@@ -8,7 +8,7 @@ import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.spottedtoad.lostisles.TheLostIsles;
 import net.spottedtoad.lostisles.world.ModConfiguredFeatures;
-import net.spottedtoad.lostisles.world.biomes.ModBiomes;
+import net.spottedtoad.lostisles.world.biome.ModBiomes;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

@@ -1,4 +1,4 @@
-package net.spottedtoad.lostisles.world.trees;
+package net.spottedtoad.lostisles.world.tree;
 
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.spottedtoad.lostisles.TheLostIsles;

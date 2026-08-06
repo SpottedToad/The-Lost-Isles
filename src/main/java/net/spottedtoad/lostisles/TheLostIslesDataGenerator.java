@@ -17,6 +17,7 @@ public class TheLostIslesDataGenerator implements DataGeneratorEntrypoint {
 
 		pack.addProvider(ModDynamicRegistryProvider::new);
 		pack.addProvider(ModModelProvider::new);
+		pack.addProvider(ModBiomesTagsProvider::new);
 		pack.addProvider(ModItemsTagsProvider::new);
 		pack.addProvider(ModBlocksTagsProvider::new);
 		pack.addProvider(ModBlockLootTableProvider::new);

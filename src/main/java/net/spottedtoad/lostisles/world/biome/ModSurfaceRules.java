@@ -1,4 +1,4 @@
-package net.spottedtoad.lostisles.world.biomes;
+package net.spottedtoad.lostisles.world.biome;
 
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.SurfaceRules;

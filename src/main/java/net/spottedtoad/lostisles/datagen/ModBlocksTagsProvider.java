@@ -9,8 +9,6 @@ import net.spottedtoad.lostisles.block.ModBlocks;
 import java.util.concurrent.CompletableFuture;
 
 public class ModBlocksTagsProvider extends FabricTagsProvider.BlockTagsProvider {
-
-
     public ModBlocksTagsProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookupFuture) {
         super(output, registryLookupFuture);
     }

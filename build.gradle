@@ -7,6 +7,13 @@ group = project.maven_group
 version = project.mod_version
 
 repositories {
+	maven {
+		name = 'TerraformersMC'
+		url = 'https://maven.terraformersmc.com/releases/'
+	}
+	maven {
+		url = 'https://maven.minecraftforge.net/'
+	}
 	exclusiveContent {
 		forRepository {
 			maven {
@@ -17,10 +24,6 @@ repositories {
 		filter {
 			includeGroupAndSubgroups('com.geckolib')
 		}
-	}
-	maven {
-		name = 'TerraformersMC'
-		url = 'https://maven.terraformersmc.com/releases/'
 	}
 }
 
@@ -37,7 +40,8 @@ dependencies {
 
 	implementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
 	implementation "com.terraformersmc:biolith-fabric:${project.biolith_version}"
-	include "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
+		include "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
+	implementation "com.github.glitchfiend:TerraBlender-fabric:${project.minecraft_version}-${project.terrablender_version}"
 	implementation "com.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}"
 }
 
@@ -47,8 +51,10 @@ processResources {
 	inputs.property "loader_version", loader_version
 	inputs.property "java_version", java_version
 	inputs.property "loom_version", loom_version
-	inputs.property "geckolib_version", geckolib_version
 	inputs.property "biolith_version", biolith_version
+	inputs.property "terraformer_version", terraformer_version
+	inputs.property "terrablender_version", terrablender_version
+	inputs.property "geckolib_version", geckolib_version
 
 	filesMatching("fabric.mod.json") {
 		expand(
@@ -57,8 +63,10 @@ processResources {
 				"loader_version": loader_version,
 				"java_version": java_version,
 				"loom_version": loom_version,
-				"geckolib_version": geckolib_version,
-				"biolith_version": biolith_version
+				"biolith_version": biolith_version,
+				"terraformer_version": terraformer_version,
+				"terrablender_version": terrablender_version,
+				"geckolib_version": geckolib_version
 		)
 	}
 }

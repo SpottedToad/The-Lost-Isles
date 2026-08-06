@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.spottedtoad.lostisles.TheLostIsles;
-import net.spottedtoad.lostisles.world.trees.ModSaplingGenerators;
+import net.spottedtoad.lostisles.world.tree.ModSaplingGenerators;
 
 import java.util.function.Function;
 import java.util.function.Supplier;

@@ -1,4 +1,4 @@
-package net.spottedtoad.lostisles.world;
+package net.spottedtoad.lostisles.world.gen;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
@@ -11,9 +11,9 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorTy
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.spottedtoad.lostisles.TheLostIsles;
-import net.spottedtoad.lostisles.world.trees.ConiferFoliagePlacer;
-import net.spottedtoad.lostisles.world.trees.ConiferTrunkPlacer;
-import net.spottedtoad.lostisles.world.trees.NullFoliagePlacer;
+import net.spottedtoad.lostisles.world.tree.ConiferFoliagePlacer;
+import net.spottedtoad.lostisles.world.tree.ConiferTrunkPlacer;
+import net.spottedtoad.lostisles.world.tree.NullFoliagePlacer;
 
 public class ModWorldGen {
     public static final TrunkPlacerType<ConiferTrunkPlacer> CONIFER_TRUNK_PLACER = registerTrunkPlacer("conifer_trunk_placer", ConiferTrunkPlacer.CODEC);

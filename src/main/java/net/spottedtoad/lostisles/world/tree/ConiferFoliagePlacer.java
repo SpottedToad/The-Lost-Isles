@@ -1,4 +1,4 @@
-package net.spottedtoad.lostisles.world.trees;
+package net.spottedtoad.lostisles.world.tree;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
-import net.spottedtoad.lostisles.world.ModWorldGen;
+import net.spottedtoad.lostisles.world.gen.ModWorldGen;
 
 public class ConiferFoliagePlacer extends FoliagePlacer {
     public static final MapCodec<ConiferFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(

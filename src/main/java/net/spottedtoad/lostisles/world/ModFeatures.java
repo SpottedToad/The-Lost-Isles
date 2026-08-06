@@ -6,8 +6,8 @@ import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSi
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.spottedtoad.lostisles.TheLostIsles;
 import net.spottedtoad.lostisles.block.ModBlocks;
-import net.spottedtoad.lostisles.world.trees.ConiferFoliagePlacer;
-import net.spottedtoad.lostisles.world.trees.ConiferTrunkPlacer;
+import net.spottedtoad.lostisles.world.tree.ConiferFoliagePlacer;
+import net.spottedtoad.lostisles.world.tree.ConiferTrunkPlacer;
 
 public class ModFeatures {
     public static final TreeConfiguration CONIFER_TREE_CONFIG = new TreeConfiguration.TreeConfigurationBuilder(

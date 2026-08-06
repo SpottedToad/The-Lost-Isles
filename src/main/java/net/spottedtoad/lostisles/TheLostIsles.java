@@ -1,8 +1,6 @@
 package net.spottedtoad.lostisles;
 
 import com.terraformersmc.biolith.api.surface.SurfaceGeneration;
-import com.terraformersmc.biolith.impl.Biolith;
-import com.terraformersmc.biolith.impl.BiolithInit;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -18,13 +16,13 @@ import net.spottedtoad.lostisles.item.ModItems;
 import net.spottedtoad.lostisles.tab.ModTabs;
 import net.spottedtoad.lostisles.util.ModFlammableBlocks;
 import net.spottedtoad.lostisles.util.ModStrippableBlocks;
-import net.spottedtoad.lostisles.world.ModBiomePlacement;
+import net.spottedtoad.lostisles.world.biome.ModBiomePlacement;
 import net.spottedtoad.lostisles.world.ModConfiguredFeatures;
 import net.spottedtoad.lostisles.world.ModFeatures;
-import net.spottedtoad.lostisles.world.biomes.ModBiomes;
-import net.spottedtoad.lostisles.world.biomes.ModSurfaceRules;
-import net.spottedtoad.lostisles.world.trees.ModSaplingGenerators;
-import net.spottedtoad.lostisles.world.ModWorldGen;
+import net.spottedtoad.lostisles.world.biome.ModBiomes;
+import net.spottedtoad.lostisles.world.biome.ModSurfaceRules;
+import net.spottedtoad.lostisles.world.tree.ModSaplingGenerators;
+import net.spottedtoad.lostisles.world.gen.ModWorldGen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +42,6 @@ public class TheLostIsles implements ModInitializer {
 		ModTabs.registerModTabs();
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
-		ModEntityTypes.registerModEntityTypes();
 		ModWoodTypes.registerModWoodTypes();
 		ModCompostables.registerCompostableBlocks();
 		ModStrippableBlocks.registerStrippableBlocks();
@@ -55,12 +52,13 @@ public class TheLostIsles implements ModInitializer {
 		ModConfiguredFeatures.registerModConfiguredFeatures();
 		ModSaplingGenerators.registerModSaplingGenerators();
 
+		ModEntityTypes.registerModEntityTypes();
 		FabricDefaultAttributeRegistry.register(CERATOSAURUS, CeratosaurusEntity.createCeratosaurusAttributes());
 
+		ModBiomes.registerModBiomes();
 		SurfaceGeneration.addOverworldSurfaceRules(
 				Identifier.fromNamespaceAndPath("lostisles", "rules/overworld"),
 				ModSurfaceRules.overworld());
-		ModBiomes.registerModBiomes();
 		ModBiomePlacement.registerModBiomePlacement();
 
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(output -> {
