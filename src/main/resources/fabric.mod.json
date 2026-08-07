@@ -26,9 +26,6 @@
 		],
 		"fabric-datagen": [
 			"net.spottedtoad.lostisles.TheLostIslesDataGenerator"
-		],
-		"terrablender": [
-			"net.spottedtoad.lostisles.TheLostIslesTerraBlenderEntry"
 		]
 	},
 	"mixins": [
@@ -39,11 +36,6 @@
 			"dependencies": [
 				{
 					"id": "biolith",
-					"relationship": "required",
-					"version": "~${minecraft_version}"
-				},
-				{
-					"id": "terrablender",
 					"relationship": "required",
 					"version": "~${minecraft_version}"
 				},
@@ -60,8 +52,8 @@
 		"minecraft": "~${minecraft_version}",
 		"java": ">=${java_version}",
 		"fabric-api": "*",
+
 		"biolith": ">=${biolith_version}",
-		"terrablender": ">=${terrablender_version}",
 		"geckolib": ">=${geckolib_version}"
 	}
 }
