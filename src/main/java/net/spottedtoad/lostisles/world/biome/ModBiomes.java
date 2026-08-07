@@ -54,7 +54,7 @@ public class ModBiomes {
                 .mobSpawnSettings(spawns.build())
                 .generationSettings(geo.build())
                 .specialEffects(new BiomeSpecialEffects.Builder()
-                        .waterColor(0x45AD12)
+                        .waterColor(0x45AD12) // Test value. Real color should be: 0x45ADF2
                         .grassColorOverride(0x04131A)
                         .foliageColorOverride(0x71A74D)
                         .grassColorModifier(BiomeSpecialEffects.GrassColorModifier.NONE)
