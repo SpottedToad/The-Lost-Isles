@@ -34,7 +34,7 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-
+	implementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:${project.terraformer_version}"
 	implementation "com.terraformersmc:biolith-fabric:${project.biolith_version}"
 	implementation "com.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}"
 }
@@ -46,6 +46,7 @@ processResources {
 	inputs.property "java_version", java_version
 	inputs.property "loom_version", loom_version
 
+	inputs.property "terraformer_version", terraformer_version
 	inputs.property "biolith_version", biolith_version
 	inputs.property "geckolib_version", geckolib_version
 
@@ -57,6 +58,7 @@ processResources {
 				"java_version": java_version,
 				"loom_version": loom_version,
 
+				"terraformer_version": terraformer_version,
 				"biolith_version": biolith_version,
 				"geckolib_version": geckolib_version
 		)
