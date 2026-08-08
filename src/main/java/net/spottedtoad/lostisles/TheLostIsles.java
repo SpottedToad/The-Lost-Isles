@@ -21,6 +21,8 @@ import net.spottedtoad.lostisles.world.ModConfiguredFeatures;
 import net.spottedtoad.lostisles.world.ModFeatures;
 import net.spottedtoad.lostisles.world.biome.ModBiomes;
 import net.spottedtoad.lostisles.world.biome.ModSurfaceRules;
+import net.spottedtoad.lostisles.world.dimension.ModDimensionChunkGenerators;
+import net.spottedtoad.lostisles.world.dimension.ModDimensions;
 import net.spottedtoad.lostisles.world.tree.ModSaplingGenerators;
 import net.spottedtoad.lostisles.world.gen.ModWorldGen;
 import org.slf4j.Logger;
@@ -54,6 +56,9 @@ public class TheLostIsles implements ModInitializer {
 
 		ModEntityTypes.registerModEntityTypes();
 		FabricDefaultAttributeRegistry.register(CERATOSAURUS, CeratosaurusEntity.createCeratosaurusAttributes());
+
+		ModDimensionChunkGenerators.registerModDimensionChunkGenerators();
+		ModDimensions.registerModDimensions();
 
 		ModBiomes.registerModBiomes();
 		SurfaceGeneration.addOverworldSurfaceRules(

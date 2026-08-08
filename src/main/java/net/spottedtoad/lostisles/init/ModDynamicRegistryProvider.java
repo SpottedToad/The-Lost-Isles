@@ -1,4 +1,4 @@
-package net.spottedtoad.lostisles.datagen;
+package net.spottedtoad.lostisles.init;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
@@ -9,6 +9,8 @@ import net.minecraft.core.registries.Registries;
 import net.spottedtoad.lostisles.TheLostIsles;
 import net.spottedtoad.lostisles.world.ModConfiguredFeatures;
 import net.spottedtoad.lostisles.world.biome.ModBiomes;
+import net.spottedtoad.lostisles.world.dimension.ModDimensionChunkGenerators;
+import net.spottedtoad.lostisles.world.dimension.ModDimensions;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -21,12 +23,16 @@ public class ModDynamicRegistryProvider extends FabricDynamicRegistryProvider {
     public static void buildRegistry(RegistrySetBuilder registryBuilder) {
         registryBuilder.add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap);
         registryBuilder.add(Registries.BIOME, ModBiomes::bootstrap);
+        registryBuilder.add(Registries.DIMENSION_TYPE, ModDimensions::bootstrapType);
+        registryBuilder.add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem);
     }
 
     @Override
     protected void configure(HolderLookup.Provider registries, Entries entries) {
         addAll(entries, registries.lookupOrThrow(Registries.CONFIGURED_FEATURE), TheLostIsles.MOD_ID);
         addAll(entries, registries.lookupOrThrow(Registries.BIOME), TheLostIsles.MOD_ID);
+        addAll(entries, registries.lookupOrThrow(Registries.DIMENSION_TYPE), TheLostIsles.MOD_ID);
+        addAll(entries, registries.lookupOrThrow(Registries.LEVEL_STEM), TheLostIsles.MOD_ID);
     }
 
     @SuppressWarnings("UnusedReturnValue")

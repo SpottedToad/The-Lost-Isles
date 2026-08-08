@@ -18,8 +18,8 @@ public class ModBiomesTagsProvider extends FabricTagsProvider<Biome> {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         builder(BiomeTags.IS_OCEAN)
-                .add(ModBiomes.PRIMORDIAL_OCEAN)
-                .add(ModBiomes.DEEP_PRIMORDIAL_OCEAN);
+                .add(ModBiomes.DEEP_PRIMORDIAL_OCEAN)
+                .add(ModBiomes.PRIMORDIAL_OCEAN);
 
         builder(BiomeTags.IS_DEEP_OCEAN)
                 .add(ModBiomes.DEEP_PRIMORDIAL_OCEAN);
