@@ -64,8 +64,9 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         BlockState stoneMaterial = Blocks.STONE.defaultBlockState();
         BlockState waterMaterial = Blocks.WATER.defaultBlockState();
-        // Provides perlin map for random terrain generation
-        NormalNoise islandNoiseSampler = randomState.getOrCreateNoise(Noises.CALCITE);
+
+        NormalNoise horizontalIslandSampler = randomState.getOrCreateNoise(Noises.CALCITE);
+        NormalNoise verticalMountainSampler = randomState.getOrCreateNoise(Noises.JAGGED);
 
         for (int x = 0; x < 16; x++) {
             int worldX = chunkPos.getMinBlockX() + x;
@@ -84,9 +85,10 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                 int shallowOceanFloorHeight = 54;
                 int currentFloorHeight = deepOceanFloorHeight;
 
-                // Horizontal amplitude modifiers
-                double macroHorizontalNoiseIntensity = 0.012;
-                double microHorizontalNoiseIntensity = 0.06;
+                // Frequency intensities
+                double macroHorizontalNoiseIntensity = 0.12;
+                double microHorizontalNoiseIntensity = 0.6;
+                double verticalHeightNoiseIntensity = 0.8;
 
                 // Elevation modifiers
                 double islandHeightNoiseIntensity = 1.5;
@@ -101,19 +103,17 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                     // Creates a parabolic curve based on distance from the origin
                     double normalizedDist = distanceFromCenter / (double) maxArchipelagoBoundary;
                     double beveledFlare = 1.0 - (normalizedDist * normalizedDist);
-                    // Applies perlin noise to warp the beveled flare into a more dynamic shape
-                    double noiseYAxisMix = ((double) worldX + (double) worldZ) * 0.01;
-                    double macroNoise = islandNoiseSampler.getValue(worldX * macroHorizontalNoiseIntensity, noiseYAxisMix, worldZ * macroHorizontalNoiseIntensity) * macroNoiseMultiplier;
-                    double microNoise = islandNoiseSampler.getValue(worldX * microHorizontalNoiseIntensity, noiseYAxisMix, worldZ * microHorizontalNoiseIntensity) * microNoiseMultiplier;
-                    // Sinks archipelago deeper into the water
+                    // Applies perlin noise to warp the beveled flare into a more dynamic shape horizontally
+                    double macroNoise = horizontalIslandSampler.getValue(worldX * macroHorizontalNoiseIntensity, 0.0, worldZ * macroHorizontalNoiseIntensity) * macroNoiseMultiplier;
+                    double microNoise = horizontalIslandSampler.getValue(worldX * microHorizontalNoiseIntensity, 0.0, worldZ * microHorizontalNoiseIntensity) * microNoiseMultiplier;
+                    // Sinks archipelago deeper into the water and filters with vertical displacement
                     double terrainWeight = beveledFlare + macroNoise + microNoise + archipelagoDepthModifier;
                     if (terrainWeight > 0.0) {
-                        // Apply height modification to terrain
-                        double normalizedNoise = macroNoise / macroNoiseMultiplier;
-                        double gradientEnvelope = (0.3 + normalizedNoise) * beveledFlare;
+                        // Applies perlin noise to warp the beveled flare into a more dynamic shape vertically
+                        double heightNoise = verticalMountainSampler.getValue(worldX * verticalHeightNoiseIntensity, 0.0, worldZ * verticalHeightNoiseIntensity);
+                        double gradientEnvelope = (0.4 + heightNoise) * beveledFlare;
                         gradientEnvelope = Math.max(0.0, Math.min(1.0, gradientEnvelope));
                         double scaledWeight = gradientEnvelope * islandHeightNoiseIntensity;
-                        // Scale elevation change more dramatically when generated terrain is above water
                         int peakHeight = shallowOceanFloorHeight + (int) ((maxTerrainHeight - shallowOceanFloorHeight) * scaledWeight);
                         currentFloorHeight = Math.min(maxTerrainHeight, peakHeight);
                     } else {
