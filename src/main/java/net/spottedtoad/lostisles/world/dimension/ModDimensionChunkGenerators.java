@@ -3,6 +3,7 @@ package net.spottedtoad.lostisles.world.dimension;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -10,6 +11,7 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
@@ -21,8 +23,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
+import net.minecraft.world.level.levelgen.synth.ImprovedNoise;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.spottedtoad.lostisles.TheLostIsles;
 
@@ -39,13 +44,14 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                 genericCodec
         );
     }
-
-    public ModDimensionChunkGenerators(BiomeSource biomeSource) {super(biomeSource);}
     public BiomeSource getBiomeSource() {return this.biomeSource;}
     public static final MapCodec<ModDimensionChunkGenerators> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(BiomeSource.CODEC.fieldOf("biome_source")
-                    .forGetter(ModDimensionChunkGenerators::getBiomeSource))
+                            .forGetter(ModDimensionChunkGenerators::getBiomeSource))
                     .apply(instance, ModDimensionChunkGenerators::new));
+    public ModDimensionChunkGenerators(BiomeSource biomeSource) {
+        super(biomeSource);
+    }
 
     public int getGenDepth() {
         return 384;
@@ -59,78 +65,91 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
         return 63;
     }
 
+    private ImprovedNoise verticalNoiseSampler;
+    public ChunkGeneratorStructureState createState(
+        HolderLookup<StructureSet> structureSets, RandomState randomState, long legacyLevelSeed) {
+            if (this.verticalNoiseSampler == null) {
+                RandomSource randomSource = RandomSource.create(legacyLevelSeed);
+                this.verticalNoiseSampler = new ImprovedNoise(randomSource);
+            }
+        return super.createState(structureSets, randomState, legacyLevelSeed);
+    }
+
     public CompletableFuture<ChunkAccess> fillFromNoise(Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess centerChunk) {
+        if (this.verticalNoiseSampler == null) {this.verticalNoiseSampler = new ImprovedNoise(RandomSource.create(42L));}
         ChunkPos chunkPos = centerChunk.getPos();
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         BlockState stoneMaterial = Blocks.STONE.defaultBlockState();
         BlockState waterMaterial = Blocks.WATER.defaultBlockState();
 
-        NormalNoise horizontalIslandSampler = randomState.getOrCreateNoise(Noises.CALCITE);
-        NormalNoise verticalMountainSampler = randomState.getOrCreateNoise(Noises.JAGGED);
-
         for (int x = 0; x < 16; x++) {
             int worldX = chunkPos.getMinBlockX() + x;
             for (int z = 0; z < 16; z++) {
                 int worldZ = chunkPos.getMinBlockZ() + z;
-                // Calculates distance from origin (0, 0)
-                double distanceFromCenter = Math.sqrt((double) worldX * worldX + (double) worldZ * worldZ);
 
                 // Stored distance values
-                int maxArchipelagoBoundary = 500;
-                int shallowOceanRadius = 350;
+                int maxArchipelagoBoundary = 350;
 
                 // Stored height values
-                int maxTerrainHeight = 96;
-                int deepOceanFloorHeight = 30;
-                int shallowOceanFloorHeight = 54;
+                int deepOceanFloorHeight = 43;
+                int shallowOceanHeight = 54;
+                int maxFlareHeight = 150;
                 int currentFloorHeight = deepOceanFloorHeight;
 
-                // Frequency intensities
-                double macroHorizontalNoiseIntensity = 0.12;
-                double microHorizontalNoiseIntensity = 0.6;
-                double verticalHeightNoiseIntensity = 0.8;
+                // Height noise values
+                double flareHeightMultiplier = 0.8;
+                double erosionIntensity = 1.0;
+                double noiseFrequency = 0.015;
 
-                // Elevation modifiers
-                double islandHeightNoiseIntensity = 1.5;
-                double archipelagoDepthModifier = -0.15;
+                // Slope rate values
+                double islandPeakSteepness = 2.0;
+                double islandWidthExponent = 0.0;
 
-                // Noise multipliers
-                double macroNoiseMultiplier = 2.0;
-                double microNoiseMultiplier = 0.5;
+                // Horizontal noise values
+                double horizontalWarpIntensity = 30.0;
+                double horizontalNoiseFrequency = 0.05;
 
-                // Generation Logic
+                //Apply horizontal distortion to distance from center logic
+                double warpX = this.verticalNoiseSampler.noise(
+                        (double) worldX * horizontalNoiseFrequency,
+                        10.0,
+                        (double) worldZ * horizontalNoiseFrequency) * horizontalWarpIntensity;
+                double warpZ = this.verticalNoiseSampler.noise(
+                        (double) worldX * horizontalNoiseFrequency,
+                        20.0,
+                        (double) worldZ * horizontalNoiseFrequency) * horizontalWarpIntensity;
+                double warpedX = (double) worldX + warpX;
+                double warpedZ = (double) worldZ + warpZ;
+                double distanceFromCenter = Math.sqrt(warpedX * warpedX + warpedZ * warpedZ);
+
+            // Shallow Ocean and Island Archipelago
                 if (distanceFromCenter < maxArchipelagoBoundary) {
-                    // Creates a parabolic curve based on distance from the origin
+                    // Creates a smooth curving flare centered at (0, 0)
                     double normalizedDist = distanceFromCenter / (double) maxArchipelagoBoundary;
-                    double beveledFlare = 1.0 - (normalizedDist * normalizedDist);
-                    // Applies perlin noise to warp the beveled flare into a more dynamic shape horizontally
-                    double macroNoise = horizontalIslandSampler.getValue(worldX * macroHorizontalNoiseIntensity, 0.0, worldZ * macroHorizontalNoiseIntensity) * macroNoiseMultiplier;
-                    double microNoise = horizontalIslandSampler.getValue(worldX * microHorizontalNoiseIntensity, 0.0, worldZ * microHorizontalNoiseIntensity) * microNoiseMultiplier;
-                    // Sinks archipelago deeper into the water and filters with vertical displacement
-                    double terrainWeight = beveledFlare + macroNoise + microNoise + archipelagoDepthModifier;
-                    if (terrainWeight > 0.0) {
-                        // Applies perlin noise to warp the beveled flare into a more dynamic shape vertically
-                        double heightNoise = verticalMountainSampler.getValue(worldX * verticalHeightNoiseIntensity, 0.0, worldZ * verticalHeightNoiseIntensity);
-                        double gradientEnvelope = (0.4 + heightNoise) * beveledFlare;
-                        gradientEnvelope = Math.max(0.0, Math.min(1.0, gradientEnvelope));
-                        double scaledWeight = gradientEnvelope * islandHeightNoiseIntensity;
-                        int peakHeight = shallowOceanFloorHeight + (int) ((maxTerrainHeight - shallowOceanFloorHeight) * scaledWeight);
-                        currentFloorHeight = Math.min(maxTerrainHeight, peakHeight);
-                    } else {
-                        if (distanceFromCenter < shallowOceanRadius) {
-                            // Create a shallow ocean within a specified radius
-                            currentFloorHeight = shallowOceanFloorHeight + (int) (microNoise / 2);
-                        } else {
-                            // Creates a steep slope towards deep ocean
-                            double slopeRange = (double) (maxArchipelagoBoundary - shallowOceanRadius);
-                            double slopeProgress = (distanceFromCenter - shallowOceanRadius) / slopeRange;
-                            // Creates a deep ocean that stretches outwards
-                            currentFloorHeight = shallowOceanFloorHeight - (int) ((shallowOceanFloorHeight - deepOceanFloorHeight) * slopeProgress);
+                    double rawFlare = (Math.cos(Math.PI * normalizedDist) + 1.0) / 2.0;
+                    // Create exponential terrain slope change into the ocean
+                    double beveledFlare = Math.pow(rawFlare, islandWidthExponent) * Math.pow(rawFlare, islandPeakSteepness);
+                    // Applies noise to create dynamic terrain shapes that are tapered by the flare shape
+                    double verticalNoise = this.verticalNoiseSampler.noise(
+                            (double) worldX * noiseFrequency,
+                            0.0,
+                            (double) worldZ * noiseFrequency);
+                    // Exaggerates terrain height
+                    double rawHeightmap = (verticalNoise + 1.0) / 2.0;
+                    double erodedNoise = Math.pow(rawHeightmap, erosionIntensity);
+                    // Applies smoothing affect onto terrain to match beveled flare
+                    double polishedWeight = flareHeightMultiplier * (erodedNoise * beveledFlare);
+                    int calculatedHeight = deepOceanFloorHeight + (int) ((maxFlareHeight - deepOceanFloorHeight) * polishedWeight);
+                    // Slope from beaches into the shallow ocean shelf
+                    int seaLevel = this.getSeaLevel();
+                    if (calculatedHeight < seaLevel) {
+                        calculatedHeight = Math.max(shallowOceanHeight, calculatedHeight);
                         }
-                    }
+                    // Applies terrain values
+                    currentFloorHeight = (int) calculatedHeight;
                 }
 
-            // Empty Ocean surrounding the Primordial Ocean Basin
+            // Deep Ocean Basin
                 for (int y = centerChunk.getMinY(); y < centerChunk.getMaxY(); y++) {
                     mutablePos.set(x, y, z);
                     // Fills the area below "currentFloorHeight" with stone
