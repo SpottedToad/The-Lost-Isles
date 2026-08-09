@@ -93,23 +93,24 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                 // Stored height values
                 int deepOceanFloorHeight = 43;
                 int shallowOceanHeight = 54;
-                int maxFlareHeight = 150;
+                int maxFlareHeight = 169;
                 int currentFloorHeight = deepOceanFloorHeight;
 
                 // Height noise values
-                double flareHeightMultiplier = 0.8;
-                double erosionIntensity = 1.0;
-                double noiseFrequency = 0.015;
+                double flareHeightMultiplier = 0.68;
+                double erosionIntensity = 1.2;
 
                 // Slope rate values
-                double islandPeakSteepness = 2.0;
-                double islandWidthExponent = 0.0;
+                double flareExponent = 0.85;
+                double maxNoiseFrequency = 0.011;
+                double minNoiseFrequency = 0.0015;
+                double frequencyChangeRate = 2.81;
 
                 // Horizontal noise values
-                double horizontalWarpIntensity = 30.0;
-                double horizontalNoiseFrequency = 0.05;
+                double horizontalWarpIntensity = 18.0;
+                double horizontalNoiseFrequency = 0.039;
 
-                //Apply horizontal distortion to distance from center logic
+                // Apply horizontal distortion to distance from center logic
                 double warpX = this.verticalNoiseSampler.noise(
                         (double) worldX * horizontalNoiseFrequency,
                         10.0,
@@ -122,22 +123,30 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                 double warpedZ = (double) worldZ + warpZ;
                 double distanceFromCenter = Math.sqrt(warpedX * warpedX + warpedZ * warpedZ);
 
-            // Shallow Ocean and Island Archipelago
+            // Terrain shape logic
                 if (distanceFromCenter < maxArchipelagoBoundary) {
                     // Creates a smooth curving flare centered at (0, 0)
                     double normalizedDist = distanceFromCenter / (double) maxArchipelagoBoundary;
                     double rawFlare = (Math.cos(Math.PI * normalizedDist) + 1.0) / 2.0;
-                    // Create exponential terrain slope change into the ocean
-                    double beveledFlare = Math.pow(rawFlare, islandWidthExponent) * Math.pow(rawFlare, islandPeakSteepness);
-                    // Applies noise to create dynamic terrain shapes that are tapered by the flare shape
-                    double verticalNoise = this.verticalNoiseSampler.noise(
-                            (double) worldX * noiseFrequency,
+                    double beveledFlare = Math.pow(rawFlare, flareExponent);
+                    // Create noise frequencies to generate dynamic terrain
+                    double mountainNoise = this.verticalNoiseSampler.noise(
+                            (double) worldX * maxNoiseFrequency,
                             0.0,
-                            (double) worldZ * noiseFrequency);
-                    // Exaggerates terrain height
-                    double rawHeightmap = (verticalNoise + 1.0) / 2.0;
-                    double erodedNoise = Math.pow(rawHeightmap, erosionIntensity);
-                    // Applies smoothing affect onto terrain to match beveled flare
+                            (double) worldZ * maxNoiseFrequency
+                            );
+                    double plainsNoise = this.verticalNoiseSampler.noise(
+                            (double) worldX * minNoiseFrequency,
+                            0.0,
+                            (double) worldZ * minNoiseFrequency
+                            );
+                    // Exponentially transition between the noise frequencies
+                    double rawMountainMap = (mountainNoise + 1.0) / 2.0;
+                    double rawPlainsMap = (plainsNoise + 1.0) / 2.0;
+                    double blendProgress = Math.pow(beveledFlare, frequencyChangeRate);
+                    double combinedHeightmap = (rawPlainsMap * (1.0 - blendProgress)) + (rawMountainMap * blendProgress);
+                    // Combine terrain parameters into cohesive whole
+                    double erodedNoise = Math.pow(combinedHeightmap, erosionIntensity);
                     double polishedWeight = flareHeightMultiplier * (erodedNoise * beveledFlare);
                     int calculatedHeight = deepOceanFloorHeight + (int) ((maxFlareHeight - deepOceanFloorHeight) * polishedWeight);
                     // Slope from beaches into the shallow ocean shelf
@@ -149,7 +158,7 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                     currentFloorHeight = (int) calculatedHeight;
                 }
 
-            // Deep Ocean Basin
+            // Terrain and water placer
                 for (int y = centerChunk.getMinY(); y < centerChunk.getMaxY(); y++) {
                     mutablePos.set(x, y, z);
                     // Fills the area below "currentFloorHeight" with stone
