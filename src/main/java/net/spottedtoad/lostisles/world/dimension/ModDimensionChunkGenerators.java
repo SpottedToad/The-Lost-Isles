@@ -90,7 +90,7 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                 int worldZ = chunkPos.getMinBlockZ() + z;
 
                 // Stored radius values
-                int maxArchipelagoBoundary = 1269;
+                int maxArchipelagoBoundary = 532;
                 double shallowOceanBoundaryMultiplier = 1.05;
                 double dropOffPercentage = 1.013;
                 double dropOffTaper = 2.0;
@@ -103,8 +103,8 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                 int currentFloorHeight = deepOceanFloorHeight;
 
                 // Height noise values
-                double flareHeightMultiplier = 0.78;
-                double erosionIntensity = 1.35;
+                double flareHeightMultiplier = 0.55;
+                double erosionIntensity = 1.12;
 
                 // Horizontal noise values
                 double horizontalWarpIntensity = 11.0;
