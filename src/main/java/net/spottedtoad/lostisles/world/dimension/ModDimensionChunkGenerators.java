@@ -91,15 +91,16 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
 
                 // Stored radius values
                 int maxArchipelagoBoundary = 532;
-                double shallowOceanBoundaryMultiplier = 1.05;
-                double dropOffPercentage = 1.013;
-                double dropOffTaper = 2.0;
+                double shallowOceanBoundaryRadius = 50; //(modify to accept block length)
+                double dropOffSlopeRate = 2.0;
+                double maxBoundaryRadius = 100; // Blocks
 
                 // Stored height values
+                int beachBaseHeight = 5;
                 int shallowOceanHeightMax = 55;
                 int shallowOceanHeightMin = 41;
                 int deepOceanFloorHeight = 33;
-                int maxFlareHeight = 190;
+                int maxFlareHeight = 200;
                 int currentFloorHeight = deepOceanFloorHeight;
 
                 // Height noise values
@@ -126,8 +127,11 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                 double distanceFromCenter = Math.sqrt(warpedX * warpedX + warpedZ * warpedZ);
                 double normalizedDist = distanceFromCenter / (double) maxArchipelagoBoundary;
 
+                double extendedOceanBoundary = (double) maxArchipelagoBoundary + shallowOceanBoundaryRadius;
+                double dropOffEndBoundary = extendedOceanBoundary + maxBoundaryRadius;
+
                 // Terrain shape logic
-                if (distanceFromCenter < (maxArchipelagoBoundary * dropOffPercentage)) {
+                if (distanceFromCenter < dropOffEndBoundary) {
                     // Creates a smooth curving flare centered at (0, 0)
                     double rawFlare = (Math.cos(Math.PI * Math.min(1.0, normalizedDist)) + 1.0) / 2.0;
                     double beveledFlare = Math.pow(rawFlare, flareExponent);
@@ -143,31 +147,18 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                     double erodedNoise = Math.pow(combinedHeightmap, erosionIntensity);
                     double polishedWeight = flareHeightMultiplier * (erodedNoise * beveledFlare);
                     // Below water terrain logic
-                    double oceanSinkFactor = 0.0;
-                    double extendedOceanBoundary = (double) maxArchipelagoBoundary * shallowOceanBoundaryMultiplier;
-                    if (distanceFromCenter > maxArchipelagoBoundary) {
-                        if (distanceFromCenter <= extendedOceanBoundary) {
-                            // shallow taper towards drop off
-                            double shallowProgress = (distanceFromCenter - maxArchipelagoBoundary) / (extendedOceanBoundary - maxArchipelagoBoundary);
-                            oceanSinkFactor = Math.pow(shallowProgress, flareExponent) * 0.40;
-                        } else if (distanceFromCenter <= (extendedOceanBoundary * dropOffPercentage)) {
-                            // drop off
-                            double dropOffStart = extendedOceanBoundary;
-                            double dropOffEnd = extendedOceanBoundary * dropOffPercentage;
-                            double slopeProgress = (distanceFromCenter - dropOffStart) / (dropOffEnd - dropOffStart);
-                            double steepDropCurve = Math.pow(slopeProgress, dropOffTaper);
-                            oceanSinkFactor = shallowOceanMaxSink + (dropOffSinkWorkspace * steepDropCurve);
-                        } else {
-                            // deep sea bed
-                            oceanSinkFactor = 1.0;
+                    int calculatedHeight = deepOceanFloorHeight + (int) ((maxFlareHeight - deepOceanFloorHeight) * polishedWeight);
+                    int seaLevel = this.getSeaLevel();
+                    if (calculatedHeight < seaLevel || distanceFromCenter > (double) maxArchipelagoBoundary) {
+                        double oceanSinkFactor = 0.0;
+                        if (distanceFromCenter > (double) maxArchipelagoBoundary) {
+                            double oceanProgress = (distanceFromCenter - (double) maxArchipelagoBoundary) / (dropOffEndBoundary - (double) maxArchipelagoBoundary);
+                            oceanSinkFactor = Math.pow(Math.min(1.0, oceanProgress), dropOffSlopeRate);
                         }
+                        calculatedHeight = (int) (calculatedHeight * (1.0 - oceanSinkFactor) + (double) deepOceanFloorHeight * oceanSinkFactor);
                     }
-                    double activeCeiling = (double) maxFlareHeight * (1.0 - oceanSinkFactor) + (double) shallowOceanHeightMax * oceanSinkFactor;
-                    double activeFloor = (double) deepOceanFloorHeight * (1.0 - oceanSinkFactor) + (double) shallowOceanHeightMin * oceanSinkFactor;
-                    if (distanceFromCenter > (extendedOceanBoundary * dropOffPercentage)) {activeCeiling = deepOceanFloorHeight; activeFloor = deepOceanFloorHeight;}
-                        int finalCalculatedHeight = (int) (activeFloor + ((activeCeiling - activeFloor) * polishedWeight));
-                        currentFloorHeight = finalCalculatedHeight;
-                    }
+                    currentFloorHeight = Math.max(deepOceanFloorHeight, calculatedHeight);
+                }
 
             // Terrain and water placer
                 for (int y = centerChunk.getMinY(); y < centerChunk.getMaxY(); y++) {
