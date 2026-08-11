@@ -29,7 +29,6 @@ import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.synth.ImprovedNoise;
-import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.spottedtoad.lostisles.TheLostIsles;
 
 import java.util.List;
@@ -37,14 +36,6 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModDimensionChunkGenerators extends ChunkGenerator {
     protected MapCodec<? extends ChunkGenerator> codec() {return CODEC;}
-    public static void bootstrap(BootstrapContext<MapCodec<? extends ChunkGenerator>> context) {
-        MapCodec<? extends ChunkGenerator> genericCodec = CODEC;
-        context.register(
-                ResourceKey.create(Registries.CHUNK_GENERATOR,
-                Identifier.fromNamespaceAndPath(TheLostIsles.MOD_ID, "primordial_generator")),
-                genericCodec
-        );
-    }
     public BiomeSource getBiomeSource() {return this.biomeSource;}
     public static final MapCodec<ModDimensionChunkGenerators> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(BiomeSource.CODEC.fieldOf("biome_source")
