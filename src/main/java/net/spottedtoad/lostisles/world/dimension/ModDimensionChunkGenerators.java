@@ -91,15 +91,13 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
 
                 // Stored radius values
                 int maxArchipelagoBoundary = 532;
-                double shallowOceanBoundaryRadius = 50; //(modify to accept block length)
-                double dropOffSlopeRate = 2.0;
-                double maxBoundaryRadius = 100; // Blocks
+                double shallowOceanBoundaryRadius = 50;
+                double dropOffSlopeRate = 1.83;
+                double maxBoundaryRadius = 100;
 
                 // Stored height values
-                int beachBaseHeight = 5;
-                int shallowOceanHeightMax = 55;
-                int shallowOceanHeightMin = 41;
-                int deepOceanFloorHeight = 33;
+                int beachBaseHeight = 10;
+                int deepOceanFloorHeight = 28;
                 int maxFlareHeight = 200;
                 int currentFloorHeight = deepOceanFloorHeight;
 
@@ -116,8 +114,6 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                 double maxNoiseFrequency = 0.017;
                 double minNoiseFrequency = 0.0015;
                 double frequencyChangeRate = 2.12;
-                double shallowOceanMaxSink = 0.40;
-                double dropOffSinkWorkspace = 0.60;
 
                 // Distance from center logic
                 double warpX = this.verticalNoiseSampler.noise((double) worldX * horizontalNoiseFrequency, 10.0, (double) worldZ * horizontalNoiseFrequency) * horizontalWarpIntensity;
@@ -126,7 +122,6 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                 double warpedZ = (double) worldZ + warpZ;
                 double distanceFromCenter = Math.sqrt(warpedX * warpedX + warpedZ * warpedZ);
                 double normalizedDist = distanceFromCenter / (double) maxArchipelagoBoundary;
-
                 double extendedOceanBoundary = (double) maxArchipelagoBoundary + shallowOceanBoundaryRadius;
                 double dropOffEndBoundary = extendedOceanBoundary + maxBoundaryRadius;
 
@@ -146,17 +141,18 @@ public class ModDimensionChunkGenerators extends ChunkGenerator {
                     // Combine terrain parameters into cohesive whole
                     double erodedNoise = Math.pow(combinedHeightmap, erosionIntensity);
                     double polishedWeight = flareHeightMultiplier * (erodedNoise * beveledFlare);
-                    // Below water terrain logic
-                    int calculatedHeight = deepOceanFloorHeight + (int) ((maxFlareHeight - deepOceanFloorHeight) * polishedWeight);
+                    // Terrain logic
+                    int rawHeightValue = deepOceanFloorHeight + (int) ((maxFlareHeight - deepOceanFloorHeight) * polishedWeight);
                     int seaLevel = this.getSeaLevel();
-                    if (calculatedHeight < seaLevel || distanceFromCenter > (double) maxArchipelagoBoundary) {
-                        double oceanSinkFactor = 0.0;
-                        if (distanceFromCenter > (double) maxArchipelagoBoundary) {
-                            double oceanProgress = (distanceFromCenter - (double) maxArchipelagoBoundary) / (dropOffEndBoundary - (double) maxArchipelagoBoundary);
-                            oceanSinkFactor = Math.pow(Math.min(1.0, oceanProgress), dropOffSlopeRate);
+                    double oceanSinkFactor = 0.0;
+                    if (distanceFromCenter > (double) maxArchipelagoBoundary) {
+                        double oceanProgress = (distanceFromCenter - (double) maxArchipelagoBoundary) / (dropOffEndBoundary - (double) maxArchipelagoBoundary);
+                        oceanSinkFactor = Math.pow(Math.min(1.0, oceanProgress), dropOffSlopeRate);
                         }
+                    int calculatedHeight = rawHeightValue + (int) ((double) beachBaseHeight * (1.0 - oceanSinkFactor));
+                    if (calculatedHeight < seaLevel || distanceFromCenter > (double) maxArchipelagoBoundary) {
                         calculatedHeight = (int) (calculatedHeight * (1.0 - oceanSinkFactor) + (double) deepOceanFloorHeight * oceanSinkFactor);
-                    }
+                        }
                     currentFloorHeight = Math.max(deepOceanFloorHeight, calculatedHeight);
                 }
 
